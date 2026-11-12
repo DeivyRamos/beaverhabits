@@ -30,7 +30,7 @@ TIME_ZONE_KEY = "timezone"
 DARK_MODE_KEY = "dark_mode"
 
 PERIOD_TYPES = D, W, M, Y = "D", "W", "M", "Y"
-PERIOD_TYPES_FOR_HUMAN = {D: "Day(s)", W: "Week(s)", M: "Month(s)", Y: "Year(s)"}
+PERIOD_TYPES_FOR_HUMAN = {D: "Día(s)", W: "Semana(s)", M: "Mes(es)", Y: "Año(s)"}
 PERIOD_TYPE: TypeAlias = Literal["D", "W", "M", "Y"]
 
 
@@ -194,7 +194,7 @@ def ratelimiter(limit: int, window: int):
                 )
                 raise HTTPException(
                     status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-                    detail=f"Rate limit exceeded. Try again later.",
+                    detail=f"Demasiados intentos. Inténtalo más tarde.",
                 )
 
             return await func(*args, **kwargs)

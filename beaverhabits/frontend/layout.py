@@ -155,34 +155,34 @@ def menu_component():
         add_menu()
         separator()
 
-        with menu_icon_item("Tools", auto_close=False).classes("pr-1"):
+        with menu_icon_item("Herramientas", auto_close=False).classes("pr-1"):
             with ui.item_section().props("side").classes("pl-[1px]"):
                 ui.icon(icons.CHEVRON_RIGHT)
             with ui.menu().props('anchor="top end" self="top start" auto-close'):
                 # Stats for all habtis
-                menu_icon_item("Reorder", lambda: redirect("order"))
+                menu_icon_item("Reordenar", lambda: redirect("order"))
                 separator()
 
                 # Export & import
-                menu_icon_item("Export", lambda: redirect("export"))
+                menu_icon_item("Exportar", lambda: redirect("export"))
                 separator()
-                imp = menu_icon_item("Import", lambda: redirect("import"))
+                imp = menu_icon_item("Importar", lambda: redirect("import"))
                 if is_page_demo():
                     imp.classes("disabled")
                 separator()
 
                 # Stats for all habtis
-                menu_icon_item("Stats", lambda: redirect("stats"))
+                menu_icon_item("Estadísticas", lambda: redirect("stats"))
                 separator()
 
         separator()
 
         # About page
-        menu_icon_item("Help", show_help_dialog)
+        menu_icon_item("Ayuda", show_help_dialog)
         separator()
 
         # Login & Logout
-        menu_icon_item("Logout", lambda: user_logout() and ui.navigate.to("/login"))
+        menu_icon_item("Cerrar sesión", lambda: user_logout() and ui.navigate.to("/login"))
 
 
 @contextmanager
@@ -207,13 +207,13 @@ def layout(
 
             if habit:
                 edit_dialog = habit_edit_dialog(habit)
-                edit_btn = menu_icon_button("sym_r_pen_size_3", tooltip="Edit habit")
+                edit_btn = menu_icon_button("sym_r_pen_size_3", tooltip="Editar hábito")
                 edit_btn.on_click(edit_dialog.open)
             elif habit_list and "add" in page_path():
-                with menu_icon_button("sym_o_swap_vert", tooltip="Sort"):
+                with menu_icon_button("sym_o_swap_vert", tooltip="Ordenar"):
                     sort_menu(habit_list)
             elif "stats" in page_path() and page_ui:
-                with menu_icon_button("sym_o_expand_content", tooltip="Date"):
+                with menu_icon_button("sym_o_expand_content", tooltip="Fechas"):
                     stats_date_pick_menu()
 
             with menu_icon_button("sym_o_menu"):

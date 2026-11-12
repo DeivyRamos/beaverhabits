@@ -40,13 +40,13 @@ def streaks(today: datetime.date, habit: Habit):
 
 def history(today: datetime.date, habit: Habit):
     with compat_card():
-        ui.label("History").classes("text-lg")
+        ui.label("Historial").classes("text-lg")
         habit_history(today, habit, total_months=48)
 
 
 def notes(habit: Habit, limit: int = 100):
     with compat_card():
-        ui.label("Notes").classes("text-lg")
+        ui.label("Notas").classes("text-lg")
         habit_notes(habit, limit=limit)
 
 

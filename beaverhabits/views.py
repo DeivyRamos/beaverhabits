@@ -48,7 +48,7 @@ def dummy_habit_list(days: list[datetime.date]):
                 {"day": day.strftime(DAY_MASK), "done": True} for day in days if pick()
             ],
         }
-        for name in ("Order pizz", "Running", "Table Tennis", "Clean", "Call mom")
+        for name in ("Leer 10 páginas", "Correr", "Beber agua", "Ordenar", "Llamar a mamá")
     ]
     return DictHabitList({"habits": items})
 
@@ -87,7 +87,7 @@ async def get_user_habit_list(user: User) -> HabitList:
     except Exception:
         raise HTTPException(
             status_code=404,
-            detail="The habit list data may be broken or missing, please contact the administrator.",
+            detail="Los datos de tus hábitos parecen dañados o faltan. Contacta al administrador.",
         )
 
 
@@ -96,7 +96,7 @@ async def get_user_habit(user: User, habit_id: str) -> Habit:
 
     habit = await habit_list.get_habit_by(habit_id)
     if habit is None:
-        raise HTTPException(status_code=404, detail="Habit not found")
+        raise HTTPException(status_code=404, detail="Hábito no encontrado")
 
     return habit
 
@@ -157,7 +157,7 @@ async def export_user_habit_list(habit_list: HabitList, user_identify: str) -> b
 
 async def validate_max_user_count():
     if await get_user_count() >= settings.MAX_USER_COUNT > 0:
-        raise HTTPException(status_code=404, detail="User limit reached")
+        raise HTTPException(status_code=404, detail="Se alcanzó el límite de usuarios")
 
 
 async def login_user(user: User) -> None:
@@ -230,7 +230,7 @@ async def forgot_password(email: str) -> None:
     user = await user_get_by_email(email)
     if user is None:
         ui.notify(
-            "Email address not found, please check your email address and try again.",
+            "No encontramos ese correo. Revísalo e inténtalo de nuevo.",
             color="negative",
         )
         return
@@ -238,7 +238,7 @@ async def forgot_password(email: str) -> None:
     token = user_create_reset_token(user)
     if token is None:
         ui.notify(
-            "Failed to create reset password token, please try again later.",
+            "No se pudo crear el enlace de recuperación. Inténtalo más tarde.",
             color="negative",
         )
         return
@@ -247,18 +247,18 @@ async def forgot_password(email: str) -> None:
     async with asyncio.timeout(1):
         await run.io_bound(
             send_email,
-            "Reset your password",
-            f"Click the link to reset your password: {settings.APP_URL}/reset-password?token={token}",
+            "Restablece tu contraseña",
+            f"Pulsa el enlace para restablecer tu contraseña: {settings.APP_URL}/reset-password?token={token}",
             [user.email],
         )
-        ui.notify(f"Reset password email sent to {user.email}", color="positive")
-        logger.debug(f"Reset password email sent to {user.email}")
+        ui.notify(f"Te enviamos el correo de recuperación a {user.email}", color="positive")
+        logger.debug(f"Te enviamos el correo de recuperación a {user.email}")
 
 
 async def reset_password(user: User, password: str) -> None:
     new_user = await user_reset_password(user, password)
 
-    ui.notify("Password reset successfully", color="positive")
+    ui.notify("Contraseña restablecida", color="positive")
 
     await login_user(new_user)
     redirect(GUI_ROOT_PATH)

@@ -113,7 +113,7 @@ async def demo_chip_sets() -> None:
 async def demo_export() -> None:
     habit_list = views.get_session_habit_list()
     if not habit_list:
-        ui.notify("No habits to export", color="negative")
+        ui.notify("No hay hábitos para exportar", color="negative")
         return
     await views.export_user_habit_list(habit_list, "demo")
 
@@ -171,7 +171,7 @@ async def gui_habit_page_heatmap(
 async def gui_export(user: User = Depends(current_active_user)) -> None:
     habit_list = await views.get_user_habit_list(user)
     if not habit_list:
-        ui.notify("No habits to export", color="negative")
+        ui.notify("No hay hábitos para exportar", color="negative")
         return
     await export_page(habit_list, user)
 
@@ -209,10 +209,10 @@ async def login_page(client: Client) -> Optional[RedirectResponse]:
 
     async def try_login():
         if not email.value:
-            ui.notify("Email is required", color="negative")
+            ui.notify("El correo es obligatorio", color="negative")
             return
         if not password.value:
-            ui.notify("Password is required", color="negative")
+            ui.notify("La contraseña es obligatoria", color="negative")
             return
 
         logger.info(f"Trying to login with {email.value}")
@@ -221,7 +221,7 @@ async def login_page(client: Client) -> Optional[RedirectResponse]:
             await views.login_user(user)
             ui.navigate.to(GUI_ROOT_PATH)
         else:
-            ui.notify("email or password wrong!", color="negative")
+            ui.notify("Correo o contraseña incorrectos", color="negative")
 
     try:
         # Wait for the handshake before sending events to the server
@@ -230,7 +230,7 @@ async def login_page(client: Client) -> Optional[RedirectResponse]:
         # Ignore weak dependency
         logger.warning("Client not connected, skipping...")
 
-    with auth_card(title="Sign in", func=try_login):
+    with auth_card(title="Iniciar sesión", func=try_login):
         email = auth_email()
         password = auth_password().on("keydown.enter", try_login)
 
@@ -238,7 +238,7 @@ async def login_page(client: Client) -> Optional[RedirectResponse]:
             auth_forgot_password(email, views.forgot_password)
             ui.space()
             if not await get_user_count() >= settings.MAX_USER_COUNT > 0:
-                auth_redirect("Create account", "/register")
+                auth_redirect("Crear cuenta", "/register")
 
 
 @ui.page("/register")
@@ -253,14 +253,14 @@ async def register_page():
 
     async def try_register():
         if not email.value:
-            ui.notify("Email is required", color="negative")
+            ui.notify("El correo es obligatorio", color="negative")
             return
         if (
             not password1.value
             or not password2.value
             or password1.value != password2.value
         ):
-            ui.notify("Passwords do not match", color="negative")
+            ui.notify("Las contraseñas no coinciden", color="negative")
             return
 
         try:
@@ -276,15 +276,15 @@ async def register_page():
 
     await views.validate_max_user_count()
 
-    with auth_card(title="Sign up", func=try_register):
+    with auth_card(title="Crear cuenta", func=try_register):
         email = auth_email()
         password1 = auth_password().on("keydown.enter", try_register)
-        password2 = auth_password("Confirm password").on("keydown.enter", try_register)
+        password2 = auth_password("Confirmar contraseña").on("keydown.enter", try_register)
 
         with ui.row().classes("gap-2 w-full items-center"):
             auth_forgot_password(email, views.forgot_password)
             ui.space()
-            auth_redirect("Sign in", "/login")
+            auth_redirect("Iniciar sesión", "/login")
 
 
 @ui.page("/reset-password")
@@ -293,19 +293,19 @@ async def forgot_password_page(user: User = Depends(get_reset_user)):
 
     async def try_reset():
         if not password1.value or not password2.value:
-            ui.notify("Password is required", color="negative")
+            ui.notify("La contraseña es obligatoria", color="negative")
             return
         if password1.value != password2.value:
-            ui.notify("Passwords do not match", color="negative")
+            ui.notify("Las contraseñas no coinciden", color="negative")
             return
 
         logger.info(f"Trying to reset password for {user.email}")
         await views.reset_password(user, password1.value)
 
-    with auth_card(title="Reset password", func=try_reset):
+    with auth_card(title="Restablecer contraseña", func=try_reset):
         auth_email(user.email).disable()
-        password1 = auth_password("New password")
-        password2 = auth_password("Confirm password")
+        password1 = auth_password("Nueva contraseña")
+        password2 = auth_password("Confirmar contraseña")
 
 
 @app.post("/assets")
@@ -334,7 +334,7 @@ def init_gui_routes(fastapi_app: FastAPI):
     def handle_exception(exception: Exception):
         if isinstance(exception, HTTPException):
             if exception.status_code == status.HTTP_429_TOO_MANY_REQUESTS:
-                ui.notify(f"An error occurred: {exception}", type="negative")
+                ui.notify(f"Ocurrió un error: {exception}", type="negative")
 
     @app.middleware("http")
     async def AuthMiddleware(request: Request, call_next):

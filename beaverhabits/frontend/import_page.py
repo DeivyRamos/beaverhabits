@@ -31,7 +31,7 @@ async def import_from_json(text: str) -> HabitList:
     """
     habit_list = DictHabitList(json.loads(text))
     if not habit_list.habits:
-        raise ValueError("No habits found")
+        raise ValueError("No se encontraron hábitos")
     return habit_list
 
 
@@ -74,7 +74,7 @@ def import_ui_page(user: User):
             elif e.file.name.endswith(".csv"):
                 other = await import_from_csv(text)
             else:
-                raise ValueError("Unsupported format")
+                raise ValueError("Formato no compatible")
 
             habit_list = await user_storage.get_user_habit_list(user)
             habits = HabitListBuilder(habit_list).status(HabitStatus.ACTIVE).build()
@@ -88,15 +88,15 @@ def import_ui_page(user: User):
 
             with ui.dialog() as dialog, ui.card().classes("w-64"):
                 ui.label(
-                    "Are you sure? "
+                    "¿Estás seguro? "
                     + f"{len(added)} habits will be added and "
                     + f"{len(merged)} habits will be merged.",
                 )
                 with ui.row():
-                    ui.button("Yes", on_click=lambda: dialog.submit("Yes"))
+                    ui.button("Sí", on_click=lambda: dialog.submit("Sí"))
                     ui.button("No", on_click=lambda: dialog.submit("No"))
             result = await dialog
-            if result != "Yes":
+            if result != "Sí":
                 return
 
             # 1. Merge habtis with same habit id
@@ -104,17 +104,17 @@ def import_ui_page(user: User):
             await habit_list.merge(other)
 
             ui.notify(
-                f"Imported {len(added) + len(merged)} habits",
+                f"Importados {len(added) + len(merged)} habits",
                 position="top",
                 color="positive",
             )
         except json.JSONDecodeError:
-            ui.notify("Import failed: Invalid JSON", color="negative", position="top")
+            ui.notify("Error al importar: JSON no válido", color="negative", position="top")
         except Exception as error:
-            logger.exception("Import failed")
+            logger.exception("Error al importar")
             ui.notify(str(error), color="negative", position="top")
 
-    with layout(title="Import"):
+    with layout(title="Importar"):
         with ui.column().classes("gap-2"):
             # Upload: https://nicegui.io/documentation/upload
             upload = ui.upload(on_upload=handle_upload, max_files=1)
@@ -123,6 +123,6 @@ def import_ui_page(user: User):
 
             # Note
             with ui.row().classes("gap-1"):
-                ui.label("Restore your existing setup and continue")
+                ui.label("Recupera tu configuración y sigue donde lo dejaste")
                 with ui.link(target=const.IMPORT_WIKI_PAGE, new_tab=True):
                     ui.icon(icons.HELP)

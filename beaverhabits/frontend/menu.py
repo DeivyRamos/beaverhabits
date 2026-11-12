@@ -13,8 +13,8 @@ STATS_END_DATE = "stats_end_date"
 
 
 def add_menu():
-    add = menu_icon_item("Add", lambda: redirect("add"))
-    add.props('aria-label="Add habit"')
+    add = menu_icon_item("Añadir", lambda: redirect("add"))
+    add.props('aria-label="Añadir hábito"')
 
 
 def sort_menu(habit_list: HabitList):
@@ -35,7 +35,7 @@ def sort_menu(habit_list: HabitList):
         if habit_list.order_by == HabitOrder.CATEGORY:
             cat.props("active")
 
-        manually = menu_icon_item("Manually", set_custom)
+        manually = menu_icon_item("Manualmente", set_custom)
         if habit_list.order_by == HabitOrder.MANUALLY:
             manually.props("active")
 
@@ -85,7 +85,7 @@ def stats_date_pick_menu():
             reload_page(start_date, end_date)
         except Exception:
             ui.notify(
-                "Invalid date range. Use YYYY-MM-DD - YYYY-MM-DD",
+                "Rango no válido. Usa AAAA-MM-DD - AAAA-MM-DD",
                 color="warn",
             )
 
@@ -99,17 +99,17 @@ def stats_date_pick_menu():
                 today - datetime.timedelta(weeks=26),
                 today,
             )
-        date_input = ui.input("Date range", value=date_str).classes("w-64")
+        date_input = ui.input("Rango de fechas", value=date_str).classes("w-64")
 
         with ui.row():
-            ui.button("Apply", on_click=apply_custom_date_range)
-            ui.button("Close", on_click=dialog.close)
+            ui.button("Aplicar", on_click=apply_custom_date_range)
+            ui.button("Cerrar", on_click=dialog.close)
 
     with ui.menu().props('anchor="top end" self="top start" auto-close'):
         options = [
-            ("Last 3 Months", 15),
-            ("Last 6 Months", 26),
-            ("Last Year", 53),
+            ("Últimos 3 meses", 15),
+            ("Últimos 6 meses", 26),
+            ("Último año", 53),
         ]
         for label, weeks in options:
             start_date = today - datetime.timedelta(weeks=weeks)
@@ -131,4 +131,4 @@ def stats_date_pick_menu():
             )
 
         ui.separator()
-        menu_icon_item("Custom Range", dialog.open)
+        menu_icon_item("Rango personalizado", dialog.open)

@@ -33,7 +33,7 @@ async def test_index_page(user: User) -> None:
         index_page_ui(days, habits)
 
     await user.open("/")
-    await user.should_see("Habits")
+    await user.should_see("Hábitos")
 
 
 async def test_add_page(user) -> None:
@@ -45,7 +45,7 @@ async def test_add_page(user) -> None:
         add_page_ui(habits)
 
     await user.open("/")
-    await user.should_see("Habits")
+    await user.should_see("Hábitos")
 
 
 async def test_order_page(user) -> None:
@@ -57,7 +57,7 @@ async def test_order_page(user) -> None:
         order_page_ui(habits)
 
     await user.open("/")
-    await user.should_see("Habits")
+    await user.should_see("Hábitos")
 
 
 async def test_habit_detail_page(user) -> None:
@@ -71,7 +71,7 @@ async def test_habit_detail_page(user) -> None:
         habit_page_ui(today, habit)
 
     await user.open("/")
-    await user.should_see("Order pizz")
+    await user.should_see("Leer 10 páginas")
 
 
 async def test_habit_stats_page(user) -> None:
@@ -84,7 +84,7 @@ async def test_habit_stats_page(user) -> None:
         stats_page_ui(today, habits)
 
     await user.open("/")
-    await user.should_see("Order pizz")
+    await user.should_see("Leer 10 páginas")
 
 
 async def test_add_page_lists_multi_tag_habit_once(user) -> None:

@@ -100,7 +100,7 @@ async def user_create(
                     )
                     return user
     except UserAlreadyExists:
-        raise Exception("User already exists!")
+        raise Exception("¡Ese usuario ya existe!")
 
 
 async def user_get_by_email(email: str) -> Optional[User]:

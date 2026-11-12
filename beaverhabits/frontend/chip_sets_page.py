@@ -31,7 +31,7 @@ async def chip_sets_page(user: Optional[User] = None):
         with ui.column().classes("w-full max-w-[600px] px-4 gap-4"):
             # Header
             with ui.row().classes("w-full items-center justify-between"):
-                ui.label("Completion Status").classes("text-lg font-medium")
+                ui.label("Estados de cumplimiento").classes("text-lg font-medium")
                 ui.link(
                     "Docs ↗",
                     "https://github.com/daya0576/beaverhabits/wiki/Daily-Notes-&-Descriptions#streak-customization",
@@ -42,9 +42,9 @@ async def chip_sets_page(user: Optional[User] = None):
 
             # Section 1: Default status
             with ui.column().classes("w-full gap-1"):
-                ui.label("Default Status").classes("text-sm font-medium opacity-80")
+                ui.label("Estados por defecto").classes("text-sm font-medium opacity-80")
                 ui.label(
-                    "Default status buttons shown in the note dialog (e.g. yes, no, skip)."
+                    "Botones de estado que aparecen al escribir una nota (p. ej. sí, no, saltar)."
                 ).classes("text-xs opacity-50")
                 chips_input = ui.input_chips(
                     "e.g. yes, no, skip",
@@ -56,9 +56,9 @@ async def chip_sets_page(user: Optional[User] = None):
 
             # Section 2: Custom status
             with ui.column().classes("w-full gap-1"):
-                ui.label("Custom Status").classes("text-sm font-medium opacity-80")
+                ui.label("Estados personalizados").classes("text-sm font-medium opacity-80")
                 ui.label(
-                    "Map a status to tags that are auto-appended to the note on click."
+                    "Asocia un estado a etiquetas que se añaden solas a la nota al pulsarlo."
                 ).classes("text-xs opacity-50")
                 mapping_input = ui.input_chips(
                     "e.g. skip:#amber #skip",
@@ -69,6 +69,6 @@ async def chip_sets_page(user: Optional[User] = None):
             async def save_chips():
                 mapping = _chips_to_mapping(mapping_input.value)
                 await views.update_default_chips(user, chips_input.value, mapping)
-                ui.notify("Saved", color="positive")
+                ui.notify("Guardado", color="positive")
 
-            ui.button("Save", on_click=save_chips).props("flat dense")
+            ui.button("Guardar", on_click=save_chips).props("flat dense")

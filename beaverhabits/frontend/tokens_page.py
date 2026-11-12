@@ -10,7 +10,7 @@ async def tokens_page(user: User):
 
     with layout():
         with ui.column().classes("w-full max-w-[600px] px-4"):
-            ui.label("API Token").classes("text-lg font-bold")
+            ui.label("Token de API").classes("text-lg font-bold")
             ui.label(
                 "Use this token to authenticate with the Beaver Habits API. "
                 "It never expires but can be reset at any time."
@@ -24,7 +24,7 @@ async def tokens_page(user: User):
                 with token_container:
                     if token:
                         ui.input(
-                            "Your API Token",
+                            "Tu token de API",
                             value=token,
                         ).props("readonly outlined dense").classes(
                             "w-full font-mono text-xs sm:text-sm"
@@ -37,7 +37,7 @@ async def tokens_page(user: User):
                                     ui.run_javascript(
                                         f"navigator.clipboard.writeText('{token}')"
                                     ),
-                                    ui.notify("Copied to clipboard", color="positive"),
+                                    ui.notify("Copiado al portapapeles", color="positive"),
                                 ),
                                 icon="content_copy",
                             ).props("flat dense")
@@ -45,11 +45,11 @@ async def tokens_page(user: User):
                             async def reset_token():
                                 nonlocal token
                                 token = await crud.reset_user_api_token(user)
-                                ui.notify("Token has been reset", color="positive")
+                                ui.notify("Token regenerado", color="positive")
                                 await render_token()
 
                             ui.button(
-                                "Reset Token",
+                                "Regenerar token",
                                 on_click=reset_token,
                                 icon="refresh",
                             ).props("flat dense color=negative")
@@ -58,11 +58,11 @@ async def tokens_page(user: User):
                                 nonlocal token
                                 await crud.delete_user_api_token(user)
                                 token = None
-                                ui.notify("Token deleted", color="positive")
+                                ui.notify("Token eliminado", color="positive")
                                 await render_token()
 
                             ui.button(
-                                "Delete",
+                                "Eliminar",
                                 on_click=delete_token,
                                 icon="delete",
                             ).props("flat dense color=negative")
@@ -71,11 +71,11 @@ async def tokens_page(user: User):
                         async def create_token():
                             nonlocal token
                             token = await crud.create_user_api_token(user)
-                            ui.notify("Token created", color="positive")
+                            ui.notify("Token creado", color="positive")
                             await render_token()
 
                         ui.button(
-                            "Generate API Token",
+                            "Generar token de API",
                             on_click=create_token,
                             icon="add",
                         ).props("flat dense")
@@ -84,7 +84,7 @@ async def tokens_page(user: User):
 
             ui.separator()
 
-            ui.label("Usage").classes("text-lg font-bold")
+            ui.label("Uso").classes("text-lg font-bold")
             ui.markdown(
                 "```\n"
                 "curl -H 'Authorization: Bearer <YOUR_TOKEN>' \\\n"
