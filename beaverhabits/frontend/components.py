@@ -1324,6 +1324,9 @@ def habit_edit_dialog(habit: Habit) -> ui.dialog:
 
 
 def auth_header(text: str):
+    with ui.row().classes("items-center gap-2"):
+        ui.image("/statics/images/favicon.svg").classes("w-8 h-8")
+        ui.label("MenosClick Hábitos").classes("text-sm font-semibold").style("color: #FF5A1F")
     with ui.row():
         ui.label(text).classes("text-3xl font-bold")
 

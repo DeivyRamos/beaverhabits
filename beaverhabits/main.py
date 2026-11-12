@@ -11,6 +11,7 @@ from beaverhabits.logger import logger
 from beaverhabits.routes.api import init_api_routes
 from beaverhabits.routes.metrics import init_metrics_routes
 from beaverhabits.routes.routes import init_gui_routes
+from beaverhabits.reminders import reminder_task
 from beaverhabits.scheduler import daily_backup_task
 
 logger.info("Starting BeaverHabits...")
@@ -38,6 +39,8 @@ async def lifespan(_: FastAPI):
     if settings.ENABLE_DAILY_BACKUP:
         loop = asyncio.get_event_loop()
         loop.create_task(daily_backup_task())
+    if settings.ENABLE_REMINDERS:
+        asyncio.get_event_loop().create_task(reminder_task())
 
     yield
 

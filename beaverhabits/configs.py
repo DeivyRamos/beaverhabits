@@ -97,6 +97,11 @@ class Settings(BaseSettings):
     ENABLE_DAILY_BACKUP: bool = False
     DAILY_BACKUP_INTERVAL: int = 60 * 60 * 24
 
+    # Daily reminders (Web Push). Keys are generated in .user/ when not set.
+    ENABLE_REMINDERS: bool = True
+    VAPID_PRIVATE_KEY: str = ""
+    VAPID_SUBJECT: str = ""
+
     # Get your Google Client ID from the Google Cloud Console.
     # See https://developers.google.com/identity/gsi/web/guides/get-google-api-clientid#get_your_google_api_client_id.
     # For local development, you should add http://localhost:8080 to the authorized JavaScript origins.

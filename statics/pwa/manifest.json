@@ -1,7 +1,7 @@
 {
-  "id": "beaverhabits",
-  "name": "Beaver",
-  "short_name": "Beaver",
+  "id": "menosclick-habitos",
+  "name": "MenosClick Hábitos",
+  "short_name": "Hábitos",
   "display": "standalone",
   "orientation": "portrait",
   "scope": "/",
@@ -17,5 +17,8 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
+  ],
+  "theme_color": "#FF5A1F",
+  "background_color": "#f9f9f9",
+  "lang": "es"
 }

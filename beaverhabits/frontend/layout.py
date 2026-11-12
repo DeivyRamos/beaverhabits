@@ -35,8 +35,8 @@ def pwa_headers():
         """
         <link rel="apple-touch-icon" href="/statics/images/apple-touch-icon-v4.png">
         
-        <meta name="apple-mobile-web-app-title" content="Beaver">
-        <meta name="application-name" content="Beaver">
+        <meta name="apple-mobile-web-app-title" content="Hábitos">
+        <meta name="application-name" content="MenosClick Hábitos">
         
         <meta name="theme-color" content="#F9F9F9" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
@@ -52,41 +52,42 @@ def pwa_headers():
 
 def custom_headers():
     # Get current page info
-    page_url = "https://beaverhabits.com" + page_path()
+    base_url = settings.APP_URL.rstrip("/")
+    page_url = base_url + page_path()
 
     # SEO meta tags
     ui.add_head_html(
         f"""
         <!-- Basic Meta Tags -->
-        <meta name="description" content="A minimal habit tracking app without Goals. Track your daily habits with a simple, privacy-focused interface.">
-        <meta name="keywords" content="habit tracker, habit tracking, self-hosted, productivity, daily habits, habit building, open source">
-        <meta name="author" content="daya0576">
-        <meta name="robots" content="index, follow">
+        <meta name="description" content="Rastreador de hábitos simple y privado de MenosClick. Marca tus hábitos diarios sin complicaciones.">
+        <meta name="keywords" content="hábitos, rastreador de hábitos, productividad, rutinas, MenosClick">
+        <meta name="author" content="MenosClick">
+        <meta name="robots" content="noindex">
         <link rel="canonical" href="{page_url}">
         
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{page_url}">
-        <meta property="og:title" content="Beaver Habit Tracker">
-        <meta property="og:description" content="A minimal habit tracking app without Goals. Track your daily habits with privacy and simplicity.">
-        <meta property="og:image" content="https://beaverhabits.com/statics/images/apple-touch-icon-v4.png">
-        <meta property="og:site_name" content="Beaver Habit Tracker">
+        <meta property="og:title" content="MenosClick Hábitos">
+        <meta property="og:description" content="Rastreador de hábitos simple y privado de MenosClick. Marca tus hábitos diarios sin complicaciones.">
+        <meta property="og:image" content="{base_url}/statics/images/apple-touch-icon-v4.png">
+        <meta property="og:site_name" content="MenosClick Hábitos">
         
         <!-- Twitter -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:url" content="{page_url}">
-        <meta name="twitter:title" content="Beaver Habit Tracker">
-        <meta name="twitter:description" content="A minimal habit tracking app without Goals. Track your daily habits with privacy and simplicity.">
-        <meta name="twitter:image" content="https://beaverhabits.com/statics/images/apple-touch-icon-v4.png">
+        <meta name="twitter:title" content="MenosClick Hábitos">
+        <meta name="twitter:description" content="Rastreador de hábitos simple y privado de MenosClick. Marca tus hábitos diarios sin complicaciones.">
+        <meta name="twitter:image" content="{base_url}/statics/images/apple-touch-icon-v4.png">
         
         <!-- Structured Data (JSON-LD) -->
         <script type="application/ld+json">
         {{
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            "name": "Beaver Habit Tracker",
-            "url": "https://beaverhabits.com",
-            "description": "A minimal habit tracking app without Goals",
+            "name": "MenosClick Hábitos",
+            "url": "{base_url or page_url}",
+            "description": "Rastreador de hábitos simple y privado de MenosClick. Marca tus hábitos diarios sin complicaciones.",
             "applicationCategory": "ProductivityApplication",
             "operatingSystem": "Web, iOS, Android",
             "offers": {{
@@ -95,9 +96,9 @@ def custom_headers():
                 "priceCurrency": "USD"
             }},
             "author": {{
-                "@type": "Person",
-                "name": "daya0576",
-                "url": "https://github.com/daya0576"
+                "@type": "Organization",
+                "name": "MenosClick",
+                "url": "https://github.com/DeivyRamos"
             }}
         }}
         </script>
@@ -112,6 +113,9 @@ def custom_headers():
         ui.add_head_html(
             f'<script defer src="{settings.UMAMI_SCRIPT_URL}" data-website-id="{settings.UMAMI_ANALYTICS_ID}"></script>'
         )
+
+    # MenosClick brand color
+    ui.colors(primary="#FF5A1F")
 
     # Prevent white flash on page load
     ui.add_css(css.WHITE_FLASH_PREVENT)
@@ -134,10 +138,9 @@ def show_help_dialog():
                 ui.separator()
 
                 items = {
-                    "Documentation": "https://github.com/daya0576/beaverhabits/wiki",
-                    "Supporter": "https://www.beaverhabits.com/pricing",
-                    "YouTube": "https://www.youtube.com/@beaverhabits",
-                    "Bugs & Feature Requests": "https://github.com/daya0576/beaverhabits/issues",
+                    "Código fuente": "https://github.com/DeivyRamos/beaverhabits",
+                    "Reportar un problema": "https://github.com/DeivyRamos/beaverhabits/issues",
+                    "Proyecto original": "https://github.com/daya0576/beaverhabits",
                 }
 
                 with ui.grid(columns=2).classes("gap-2"):
@@ -176,6 +179,11 @@ def menu_component():
                 separator()
 
         separator()
+
+        # Settings & reminders
+        if not is_page_demo():
+            menu_icon_item("Ajustes", lambda: redirect("settings"))
+            separator()
 
         # About page
         menu_icon_item("Ayuda", show_help_dialog)

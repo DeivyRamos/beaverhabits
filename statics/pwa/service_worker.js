@@ -59,3 +59,29 @@ self.addEventListener('message', (event) => {
         event.ports[0].postMessage('alive');
     }
 });
+
+// Daily reminders (Web Push)
+self.addEventListener('push', (event) => {
+    let data = {};
+    try { data = event.data ? event.data.json() : {}; } catch (e) { data = { body: event.data && event.data.text() }; }
+    const title = data.title || 'MenosClick Hábitos';
+    event.waitUntil(self.registration.showNotification(title, {
+        body: data.body || '',
+        icon: '/statics/images/apple-touch-icon-v4.png',
+        badge: '/statics/images/apple-touch-icon.png',
+        tag: 'daily-reminder',
+        renotify: true,
+        data: { url: data.url || '/gui' },
+    }));
+});
+
+self.addEventListener('notificationclick', (event) => {
+    event.notification.close();
+    const url = (event.notification.data && event.notification.data.url) || '/gui';
+    event.waitUntil(clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+        for (const client of list) {
+            if (client.url.includes('/gui') && 'focus' in client) return client.focus();
+        }
+        return clients.openWindow(url);
+    }));
+});

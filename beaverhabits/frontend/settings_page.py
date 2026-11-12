@@ -3,6 +3,7 @@ from nicegui import ui
 from beaverhabits import views
 from beaverhabits.app.db import User
 from beaverhabits.frontend.layout import layout
+from beaverhabits.frontend.reminders_section import reminders_section
 from beaverhabits.utils import set_user_dark_mode
 
 EDIT_ME = """\
@@ -28,7 +29,10 @@ async def settings_page(user: User):
             ui.dark_mode().disable()
 
     with layout(title="Ajustes"):
-        with ui.column().classes("w-[600px]"):
+        with ui.column().classes("w-full max-w-[600px] gap-3"):
+            await reminders_section(user)
+            ui.separator().classes("my-4")
+
             # ui.label("Modo oscuro").classes("text-lg font-bold")
             # with ui.row():
             #     ui.button("Oscuro", on_click=lambda: toggle_dark_mode(True))

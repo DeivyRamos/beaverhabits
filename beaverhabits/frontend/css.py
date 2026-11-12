@@ -119,7 +119,7 @@ body {
     color: #BDBDBD;
   }
   .theme-icon-checkbox .q-checkbox__inner--truthy .q-checkbox__icon {
-    color: #1976d2;
+    color: #FF5A1F;
   }
 
   .theme-header-date {
@@ -149,7 +149,7 @@ body {
     color: #616161;
   }
   .theme-icon-checkbox .q-checkbox__inner--truthy .q-checkbox__icon {
-    color: #6796CF;
+    color: #FF7A45;
   }
   .q-checkbox--dark .q-checkbox__inner--falsy {
     color: hsla(0, 0%, 100%, .5);

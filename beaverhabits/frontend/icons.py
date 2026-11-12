@@ -6,7 +6,7 @@ SVG_RAW = "img:data:image/svg+xml;charset=utf8,{content}"
 SVG_TEMPLATE = "img:data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' height='{height}' viewBox='0 -960 960 960' width='{height}' fill='{color}'><path d='{data}'/></svg>"
 SVG_CLASS_TEMPLATE = "img:data:image/svg+xml;charset=utf8,<svg xmlns='http://www.w3.org/2000/svg' height='{height}' viewBox='0 -960 960 960' width='{height}' class='{css_class}'><path d='{data}'/></svg>"
 
-PRIMARY_COLOR = "rgb(103,150,207)"
+PRIMARY_COLOR = "rgb(255,90,31)"
 CLOSE_COLOR = "rgb(97,97,97)"
 card_bg_color = "rgb(29,29,29)"
 unchecked_square_color = "rgb(54,54,54)"
