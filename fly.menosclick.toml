@@ -1,0 +1,42 @@
+# Despliegue de MenosClick Hábitos en Fly.io (región Santiago).
+#
+# Primera vez:
+#   fly auth login
+#   fly apps create menosclick-habitos
+#   fly volumes create habitos_data --region scl --size 1 -c fly.menosclick.toml
+#   fly secrets set -c fly.menosclick.toml \
+#       JWT_SECRET=$(openssl rand -hex 32) \
+#       NICEGUI_STORAGE_SECRET=$(openssl rand -hex 32) \
+#       RESET_PASSWORD_TOKEN_SECRET=$(openssl rand -hex 32)
+#   fly deploy -c fly.menosclick.toml
+#
+# Siguientes versiones: fly deploy -c fly.menosclick.toml
+
+app = "menosclick-habitos"
+primary_region = "scl"
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[build]
+  dockerfile = "docker/menosclick.dockerfile"
+
+[env]
+  APP_URL = "https://menosclick-habitos.fly.dev"
+  ENABLE_REMINDERS = "true"
+
+# Base de datos SQLite, sesiones y claves de notificaciones viven aquí.
+[mounts]
+  source = "habitos_data"
+  destination = "/app/.user"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # Siempre encendida: los recordatorios se envían desde el servidor.
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

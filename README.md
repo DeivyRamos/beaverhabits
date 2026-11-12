@@ -1,3 +1,22 @@
+# MenosClick Hábitos
+
+Fork de [Beaver Habit Tracker](https://github.com/daya0576/beaverhabits) adaptado por MenosClick:
+
+- Interfaz completa en español (días y meses incluidos, sin depender del idioma del servidor).
+- Marca MenosClick: naranja `#FF5A1F`, logo propio y app instalable (PWA) como «Hábitos».
+- **Recordatorio diario por notificación push**: en *Menú → Ajustes* eliges la hora y activas cada dispositivo. Si te quedan hábitos sin marcar, te llega un aviso aunque la app esté cerrada (en iPhone hay que añadirla antes a la pantalla de inicio).
+
+**Correr en local** (Windows o Mac, Python 3.12+):
+
+```sh
+pip install uv && uv sync
+uv run uvicorn beaverhabits.main:app --port 9001
+```
+
+**Publicar online**: ver los pasos en [`fly.menosclick.toml`](fly.menosclick.toml) (Fly.io, región Santiago, ~US$3/mes).
+
+---
+
 # Beaver Habit Tracker
 
 ![GitHub Release](https://img.shields.io/github/v/release/daya0576/beaverhabits)
